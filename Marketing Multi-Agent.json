@@ -1,0 +1,370 @@
+{
+  "name": "Marketing Multi-Agent System - Break Down",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "daa2afdf-e033-436f-9a7c-61a8f26e71eb",
+      "name": "Manual Trigger",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -464,
+        224
+      ]
+    },
+    {
+      "parameters": {
+        "mode": "raw",
+        "jsonOutput": "={\n  \"business_context\": \"D2C wellness brand launching in US market.\",\n  \"objective\": \"Generate coordinated brand, content, and paid media plans for the next 90 days.\",\n  \"audience\": \"Health-conscious professionals, ages 25-45.\",\n  \"budget\": \"$45,000\"\n}",
+        "options": {}
+      },
+      "id": "2161efe5-49e5-4e32-b7c0-08e4438b1609",
+      "name": "Campaign Brief",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -240,
+        224
+      ]
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=You are the Brand Specialist. Create a concise 90-day brand strategy in 150 words or fewer.\n\nBusiness context: {{ $json.business_context }}\nObjective: {{ $json.objective }}\nAudience: {{ $json.audience }}\nBudget: {{ $json.budget }}\n\nOutput sections:\n1) Positioning\n2) Message pillars (3)\n3) First 2 experiments",
+        "options": {
+          "systemMessage": "You are a World-Class Brand Strategist and Creative Director with 20+ years of experience building iconic brands.\n\nYour goal is to define the Soul of the business. You do not care about SEO or algorithms; you care about human emotion, psychology, and storytelling.\n\nYour output must cover:\n1. Brand Archetype & Personality (e.g., The Hero, The Outlaw).\n2. Core Value Proposition (The Why Us).\n3. Tone of Voice Guidelines (vocabulary, sentence structure, emotional tone).\n4. Visual Direction Brief (color psychology, typography mood, imagery style).\n\nFormat: Professional Markdown. Clear headers, bullet points, and bold text for emphasis. No fluff. Maximum 150 words."
+        }
+      },
+      "id": "59ffd614-43ee-481b-977c-be4372590a20",
+      "name": "Brand Agent",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.7,
+      "position": [
+        0,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-5-mini",
+          "mode": "list",
+          "cachedResultName": "gpt-5-mini"
+        },
+        "options": {}
+      },
+      "id": "6d89485c-d628-476b-aefc-3437ce14c8aa",
+      "name": "OpenAI Chat Model (Brand)",
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        0,
+        160
+      ]
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=You are the Content Specialist. Create a concise 90-day content strategy in 150 words or fewer.\n\nBusiness context: {{ $json.business_context }}\nObjective: {{ $json.objective }}\nAudience: {{ $json.audience }}\nBudget: {{ $json.budget }}\n\nOutput sections:\n1) Core themes\n2) Channel mix\n3) Weekly cadence\n4) Top 5 content ideas",
+        "options": {
+          "systemMessage": "You are an Expert Editor-in-Chief and Content Strategist. You specialize in building high-authority content engines that drive traffic and establish thought leadership.\n\nYour output must cover:\n1. Core Content Pillars (3-5 main topics the brand will own).\n2. Funnel Mapping (What content works for Top, Middle, and Bottom of the funnel).\n3. 10 High-Impact Blog/Article Titles with brief outlines.\n4. Video Content Strategy (YouTube/Webinar concepts).\n\nFormat: Strategic Content Calendar style. Markdown tables where appropriate. Maximum 150 words."
+        }
+      },
+      "id": "74b044da-bca6-42da-9c4c-19a06d645d62",
+      "name": "Content Agent",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.7,
+      "position": [
+        0,
+        224
+      ]
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-5-mini",
+          "mode": "list",
+          "cachedResultName": "gpt-5-mini"
+        },
+        "options": {}
+      },
+      "id": "8a536445-9e84-4680-b0b4-3f0d51f57240",
+      "name": "OpenAI Chat Model (Content)",
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        0,
+        384
+      ]
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=You are the Paid Ads Specialist. Create a concise 90-day paid media strategy in 150 words or fewer.\n\nBusiness context: {{ $json.business_context }}\nObjective: {{ $json.objective }}\nAudience: {{ $json.audience }}\nBudget: {{ $json.budget }}\n\nOutput sections:\n1) Channel allocation\n2) Budget split\n3) Testing plan\n4) KPI targets",
+        "options": {
+          "systemMessage": "You are a Senior Performance Marketer and Media Buyer. You care about one thing: ROAS (Return on Ad Spend). You are analytical, data-driven, and ruthless about budget efficiency.\n\nYour output must cover:\n1. Channel Strategy (Meta vs. Google vs. LinkedIn vs. TikTok Ads).\n2. Audience Targeting (Demographics, Interests, Lookalikes).\n3. Ad Creative Briefs (3 distinct angles for ad copy/visuals).\n4. Budget Allocation (How to split the budget for testing vs. scaling).\n\nFormat: Professional Strategy Memo. Use data terms (CPC, CTR, CPA) correctly. Maximum 150 words."
+        }
+      },
+      "id": "b5d5c73f-1d38-49b5-8570-b7203a4a8d32",
+      "name": "Paid Ads Agent",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.7,
+      "position": [
+        0,
+        448
+      ]
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-5-mini",
+          "mode": "list",
+          "cachedResultName": "gpt-5-mini"
+        },
+        "options": {}
+      },
+      "id": "14266c19-de72-4ef8-9fe1-9d1be50780ec",
+      "name": "OpenAI Chat Model (Paid Ads)",
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        0,
+        608
+      ]
+    },
+    {
+      "parameters": {
+        "numberInputs": 3
+      },
+      "id": "66950310-ea42-40fb-b991-c6dbea5ab7a4",
+      "name": "Merge Strategies",
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3,
+      "position": [
+        304,
+        208
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Reshape 3 parallel outputs into a single combined object\nconst [brand, content, paid] = $input.all();\nreturn [{ json: {\n  brand: brand.json.output,\n  content: content.json.output,\n  paid: paid.json.output\n} }];"
+      },
+      "id": "3b732228-46a2-4fa0-985b-78a401608d50",
+      "name": "Combine Outputs",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        480,
+        224
+      ]
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Combine the three specialist strategies below into ONE executive brief and a practical 90-day action plan.\n\nBrand Strategy:\n{{ $json.brand }}\n\nContent Strategy:\n{{ $json.content }}\n\nPaid Ads Strategy:\n{{ $json.paid }}\n\nRequirements:\n- Remove overlap between strategies\n- Prioritize actionability\n- Include Day 30, 60, and 90 checkpoints",
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "You are a world-class Chief Marketing Officer (CMO) with expertise in digital strategy, branding, and growth hacking. Your goal is to synthesize specialist strategies into a single, clear executive brief that a CEO can act on immediately."
+        }
+      },
+      "id": "a11fc090-c045-40f7-967d-3e93c5fb8dbd",
+      "name": "CMO Summary Agent",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.7,
+      "position": [
+        704,
+        224
+      ]
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-5-mini",
+          "mode": "list",
+          "cachedResultName": "gpt-5-mini"
+        },
+        "options": {}
+      },
+      "id": "c6ba4606-f960-428d-9d9c-29c481d5ccc5",
+      "name": "OpenAI Chat Model (CMO)",
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        704,
+        384
+      ]
+    },
+    {
+      "parameters": {
+        "schemaType": "manual",
+        "inputSchema": "{\n  \"executive_brief\": {\n    \"type\": \"string\",\n    \"description\": \"250-400 word executive summary of all three strategies\"\n  },\n  \"priorities\": {\n    \"type\": \"array\",\n    \"items\": { \"type\": \"string\" },\n    \"description\": \"Top 3 most important actions across all strategies\"\n  },\n  \"action_plan\": {\n    \"type\": \"object\",\n    \"properties\": {\n      \"day_30\": { \"type\": \"string\", \"description\": \"Key milestone by day 30\" },\n      \"day_60\": { \"type\": \"string\", \"description\": \"Key milestone by day 60\" },\n      \"day_90\": { \"type\": \"string\", \"description\": \"Key milestone by day 90\" }\n    }\n  }\n}"
+      },
+      "id": "cea56575-0b96-408e-abb3-b862634f6feb",
+      "name": "Structured Output Parser",
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.2,
+      "position": [
+        848,
+        384
+      ]
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Manual Trigger": {
+      "main": [
+        [
+          {
+            "node": "Campaign Brief",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Campaign Brief": {
+      "main": [
+        [
+          {
+            "node": "Brand Agent",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Content Agent",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Paid Ads Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model (Brand)": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Brand Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model (Content)": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Content Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model (Paid Ads)": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Paid Ads Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model (CMO)": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "CMO Summary Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Brand Agent": {
+      "main": [
+        [
+          {
+            "node": "Merge Strategies",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Content Agent": {
+      "main": [
+        [
+          {
+            "node": "Merge Strategies",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Merge Strategies": {
+      "main": [
+        [
+          {
+            "node": "Combine Outputs",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Combine Outputs": {
+      "main": [
+        [
+          {
+            "node": "CMO Summary Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "CMO Summary Agent",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Paid Ads Agent": {
+      "main": [
+        [
+          {
+            "node": "Merge Strategies",
+            "type": "main",
+            "index": 2
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "",
+  "meta": {
+    "instanceId": "9dbe6e9adaa7644a782c9475adca697617306074a3b354c01045885272a5c8fe"
+  },
+  "tags": []
+}
